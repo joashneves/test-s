@@ -1,6 +1,40 @@
-<?php
+<?php    
+    session_start();
 
-    namespace Test;
+    if (!isset($_SESSION['pos'])) {
+        $_SESSION['pos'] = 0; // Inicialize com o valor inicial desejado
+    }
+
+    if (!isset($_SESSION['produtos'])) {
+        // Inicialize o array de produtos se ainda não existir na sessão
+        $_SESSION['produtos'] = array(
+            new Produtos(0, "Chocolate", 5.01),
+            new Produtos(2, "Peixe", 15.90),
+            new Produtos(23, "Leite", 3.51)
+        );
+    }
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form method="GET">
+        <div>
+            <label for="criarProdutoNome">Nome do Produto:</label>
+            <input type="text" id="criarProdutoNome" name="criarProdutoNome">
+            <button type="submit"  name="acao" value="criar">Criar Produto</button>
+        </div>
+    </form>
+
+    <div id="resultado">
+<?php    
+
 
     $opcao = 2;
 
@@ -32,17 +66,39 @@
         }
     };
 
+
     function MostrarProduto(){
 
-        $produto[0] = new Produtos(00, "Chocolate", 5.01);
-        $produto[1] = new Produtos(02, "Peixe", 15.90);
-        $produto[2] = new Produtos(23, "Leite", 3.51);
+        $produtoNovoNome = $_GET['criarProdutoNome'];
+    
+        $produtos = $_SESSION['produtos'];
 
-        for($i = 0; $i < 3; $i++){
-        echo "ID: " . $produto[$i]->id . PHP_EOL;
-        echo "Nome: " . $produto[$i]->nome . PHP_EOL;
-        echo "Preço: R$" . $produto[$i]->preco . PHP_EOL;
+        
+        if (isset($_GET['acao'])) {
+            $acao = $_GET['acao'];
+
+            if ($acao === 'criar') {
+                // O botão "Criar Produto" foi clicado
+                $pos = count($produtos);
+                $produtos[] = new Produtos($pos, $produtoNovoNome, rand(0, 1000) / 100);
+    
+                // Atualize o array de produtos na sessão
+                $_SESSION['produtos'] = $produtos;
+            }
+
         }
+        echo $produtos[3]->nome;
+
+        foreach($produtos as $produtos){
+           
+        echo "<div>ID: " . $produtos->id . PHP_EOL . "</div>";
+        echo "<div>Nome: " . $produtos->nome . PHP_EOL . "</div>";
+        echo "<div>Preço: R$" . $produtos->preco . PHP_EOL . "</div>";
+        echo "<br>";
+
+        }
+        
+       // echo "Produto não encontrado.";
     };
 
     class Produtos{
@@ -73,3 +129,8 @@
     };
 
 ?>
+
+</div>
+
+</body>
+</html>
