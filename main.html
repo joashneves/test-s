@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/PHP/test.css" >
+    <title>Teste de linguagens</title>
+</head>
+<body>
+    <form>
+        <div>
+            <label for="criarProdutoNome">Nome do Produto:</label>
+            <input type="text" id="criarProdutoNome" name="criarProdutoNome">
+            <button type="submit" name="acao" value="criar" onclick="criarProduto()">Criar Produto</button>
+            
+        </div>
+    </form>
+    <table style="width:100%">
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Preço</th>
+        </tr>
+        <div id="resultado">
+        </div>
+    </table>
+
+    <script src="/Javascript/comunicao.js"></script>
+
+</body>
+</html>
